@@ -5,6 +5,11 @@ import { GoalInput } from './components/GoalInput';
 
 export default function App() {
   const [goals, setGoals] = useState([])
+  const [isVisibleModal, setIsVisibleModal] = useState(false)
+
+  const startAddGoalHandler = () => {
+    setIsVisibleModal(true)
+  }
 
   const goalPressHandler = (entredText) => {
     setGoals(prev => [...prev, {
@@ -18,7 +23,8 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={goalPressHandler} />
+      <Button title='Add new Goal' color="red" onPress={() => {setIsVisibleModal(prev => !prev)}}/>
+      {isVisibleModal &&<GoalInput visible={isVisibleModal} onAddGoal={goalPressHandler} />}
       <View style={styles.goalsContainer}>
         <FlatList
         data={goals}
