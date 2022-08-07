@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { StyleSheet, View, Button, FlatList } from 'react-native';
+import { StyleSheet, View, Button, FlatList, Dimensions } from 'react-native';
 import { GoalItem } from './components/GoalItem';
 import { GoalInput } from './components/GoalInput';
 import { StatusBar } from 'expo-status-bar';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 export default function App() {
   const [goals, setGoals] = useState([])
   const [isVisibleModal, setIsVisibleModal] = useState(false)
-
-  const startAddGoalHandler = () => {
-    setIsVisibleModal(true)
-  }
 
   const goalPressHandler = (entredText) => {
     setGoals(prev => [...prev, {
@@ -29,17 +28,20 @@ export default function App() {
   return <>
     <StatusBar style='light'/>
     <View style={styles.appContainer}>
-      <Button title='Add new Goal' color="red" onPress={() => {setIsVisibleModal(prev => !prev)}}/>
+      <View style={styles.goalBtn}>
+        <View style={styles.btn}>
+          <Button title='Add new Goal' color="violet" onPress={() => {setIsVisibleModal(prev => !prev)}}/>
+        </View>
+      </View>
       {isVisibleModal &&<GoalInput visible={isVisibleModal} onAddGoal={goalPressHandler} onCancel={endAddGoalHandler} />}
       <View style={styles.goalsContainer}>
         <FlatList
         data={goals}
-        renderItem={(elData) => 
-            <GoalItem text={elData.item.text} id={elData.item.id} onDeleteItem={deleteGoalHanlder} />
-            }
         keyExtractor={(item) => {return item.id}}
+        renderItem={(elData) => 
+            <GoalItem text={elData.item.text} id={elData.item.id} onDeleteItem={deleteGoalHanlder}/>
+            }
         />
-
       </View>
     </View>
   </>
@@ -62,7 +64,20 @@ const styles = StyleSheet.create({
     borderColor: "#cccccc"
   },
   goalsContainer: {
-    flex: 4,
+    flex: 3,
+  },
+  goalBtn: {
+    flex: 1,
+    justifyContent: "center",
+    width: windowWidth,
+    height: windowHeight
+  },
+  btn: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    borderRadius: 50
   },
   textInput: {
     borderWidth: 1,
@@ -70,8 +85,5 @@ const styles = StyleSheet.create({
     borderBottomColor: "#e4d0ff",
     color: "#120438",
     width: "70%",
-    marginRight: 8,
-    padding: 8,
   },
-
 });

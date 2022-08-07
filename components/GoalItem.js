@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Pressable} from 'react-native';
 
 export const GoalItem = (props) => {
     return <>
-    
         <View style={styles.goalItem}>
         <Pressable 
             android_ripple={{color: "#ff46fd"}}
