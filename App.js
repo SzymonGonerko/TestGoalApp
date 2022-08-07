@@ -18,18 +18,22 @@ export default function App() {
   }
 
   const deleteGoalHanlder = (id) => {
-    setGoals(prev => prev.filter((el, i ) => el.id !== id))
+    setGoals(prev => prev.filter((el, _ ) => el.id !== id))
+  }
+
+  const endAddGoalHandler = () => {
+    setIsVisibleModal(false)
   }
 
   return (
     <View style={styles.appContainer}>
       <Button title='Add new Goal' color="red" onPress={() => {setIsVisibleModal(prev => !prev)}}/>
-      {isVisibleModal &&<GoalInput visible={isVisibleModal} onAddGoal={goalPressHandler} />}
+      {isVisibleModal &&<GoalInput visible={isVisibleModal} onAddGoal={goalPressHandler} onCancel={endAddGoalHandler} />}
       <View style={styles.goalsContainer}>
         <FlatList
         data={goals}
         renderItem={(elData) => 
-            <GoalItem text={elData.item.text} id={elData.item.id} onDeleteItem={deleteGoalHanlder}/>
+            <GoalItem text={elData.item.text} id={elData.item.id} onDeleteItem={deleteGoalHanlder} />
             }
         keyExtractor={(item) => {return item.id}}
         />
@@ -43,12 +47,13 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     paddingTop: 50,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    backgroundColor: "#1e085a"
   },
   inputContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
     paddingBottom: 24, 
     borderBottomWidth: 1,
@@ -59,7 +64,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 1,
-    borderColor: "#cccccc",
+    borderColor: "#e4d0ff",
+    borderBottomColor: "#e4d0ff",
+    color: "#120438",
     width: "70%",
     marginRight: 8,
     padding: 8,
